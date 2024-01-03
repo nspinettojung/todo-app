@@ -1,0 +1,54 @@
+<section class="text-bg-secondary p-5 mt-5 mx-auto " style="width: 60%;">
+    <div class="table-responsive">
+        <div class="mb-3">
+            <h1 class="font-monospace fs-1 text-center mb-4">Todo App</h1>
+            <div class="position-relative d-flex align-items-center ">
+                <input type="text" (keydown.enter)="addTodo()" placeholder="Escribe una nueva tarea"
+                    class="p-2 mx-2 rounded-2 border-0 text-bg-dark" [formControl]="newTodo">
+
+                <button class="btn btn-primary" (click)="addTodo()">+</button>
+            </div>
+        </div>
+
+        <table class="table table-primary text-center ">
+            <thead>
+                <tr>
+                    <th scope="col"> <button class="px-2 rounded-2 btn btn-outline-dark"
+                            (click)="changeFilter('all')">Todas</button></th>
+                    <th scope="col"><button class="px-2 rounded-2 btn btn-outline-dark"
+                            (click)="changeFilter('active')">Activas</button></th>
+                    <th scope="col"><button class="px-2 rounded-2 btn btn-outline-dark"
+                            (click)="changeFilter('completed')">Completadas</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (todo of todoListFiltered(); track todo.id) {
+                <tr class="">
+                    @if (todo.editing) {
+                    <td>
+                        <input type="text" placeholder="Editar Tarea" class="p-2 mx-2 rounded-2 border-0 text-bg-dark"
+                            [value]="todo.title" (keydown.enter)="saveTodo(todo.id, $event)">
+                    </td>
+                    <td></td>
+                    <td></td>
+                    } @else {
+
+                    <td scope="row"><input type="checkbox" [checked]="todo.completed" (click)="toggleTodo(todo.id)">
+                    </td>
+                    <td><label>{{ todo.title }}</label></td>
+                    <td>
+                        @if (!todo.completed) {
+                        <button class="btn btn-success mx-2" (click)="editTodo(todo.id)">Editar</button>
+                        }
+                        <button class="btn btn-danger" (click)="removeTodo(todo.id)">Eliminar</button>
+                    </td>
+                    }
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+
+</section>
